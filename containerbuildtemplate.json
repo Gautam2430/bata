@@ -1,0 +1,33 @@
+{
+    "name": "build-${PIPELINE_NAME}Container",
+    "source": {
+        "type": "CODEPIPELINE",
+        "buildspec": "${REPOSITORY_NAME}/${ENV}/buildSpec.yml"
+    },
+    "artifacts": {
+        "type": "CODEPIPELINE"
+    },
+    "environment": {
+        "type": "LINUX_CONTAINER",
+        "image": "aws/codebuild/amazonlinux2-x86_64-standard:4.0",
+        "computeType": "BUILD_GENERAL1_SMALL",
+        "privilegedMode": true
+    },
+    "logsConfig": {
+        "cloudWatchLogs": {
+            "status": "ENABLED"
+        },
+        "s3Logs": {
+            "status": "ENABLED",
+            "location": "codepipeline-us-east-1-195325248092/codebuild-logs",
+            "encryptionDisabled": false,
+            "bucketOwnerAccess": "FULL"
+        }
+    },
+    "vpcConfig": {
+        "vpcId": "vpc-027d0b07840acbe23",
+        "subnets": ["subnet-00172b384be532eac"],
+        "securityGroupIds": ["sg-0f21d8898ed0f51c6"]
+    },
+    "serviceRole": "arn:aws:iam::184210002817:role/mc/mc-account-builder-codebuild"
+}
